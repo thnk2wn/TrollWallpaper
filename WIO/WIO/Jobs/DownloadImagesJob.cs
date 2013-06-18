@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using EnsureThat;
 using Quartz;
@@ -26,30 +24,24 @@ namespace WIO.Jobs
 
                 Logger.Info("Inspecting images in {0}", outPath);
 
-                //TODO: how to decide when to re-execute search?
-                var downloadImages = Directory.GetFiles(outPath, "*.jpg").Count() < 50;
+                //var downloadImages = Directory.GetFiles(outPath, "*.jpg").Count() < 50;
 
-                if (downloadImages)
-                {
-                    Logger.Info("Downloading images");
+                Logger.Info("Downloading images");
                     
-                    if (AppSettings.Instance.Search.Queries.Count > 5)
-                        throw new InvalidOperationException("Please limit number of queries to 5");
+                if (AppSettings.Instance.Search.Queries.Count > 5)
+                    throw new InvalidOperationException("Please limit number of queries to 5");
 
-                    foreach (var search in AppSettings.Instance.Search.Queries)
+                foreach (var search in AppSettings.Instance.Search.Queries)
+                {
+                    var search1 = search;
+                    Task.Factory.StartNew(() =>
                     {
-                        var search1 = search;
-                        Task.Factory.StartNew(() =>
-                        {
-                            var fetcher = new ImageFetcher(outPath);
-                            Logger.Info("Fetching images for {0}", search1.Term);
-                            fetcher.Fetch(search1.Term);
-                            //TODO: options
-                        }, TaskCreationOptions.LongRunning);
-                    }
+                        var fetcher = new ImageFetcher(outPath);
+                        Logger.Info("Fetching images for {0}", search1.Term);
+                        fetcher.Fetch(search1.Term);
+                        //TODO: options
+                    }, TaskCreationOptions.LongRunning);
                 }
-                else
-                    Logger.Info("Bypassing image downloading");
             }
             catch (Exception ex)
             {

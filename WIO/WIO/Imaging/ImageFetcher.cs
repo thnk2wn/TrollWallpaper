@@ -56,9 +56,9 @@ namespace WIO.Imaging
                     ImageFilters: "Size:Large",
                     top: 100);
 
-                Logger.Info("Performing image search");
+                Logger.Info("Performing image search using ", _bingSearchContainer.BaseUri);
                 var results = query.ToList();
-                Logger.Info("Image search finished");
+                Logger.Info("Image search finished; {0} results", results.Count);
                 DownloadImages(results);
             }
             catch (Exception ex)
@@ -71,23 +71,32 @@ namespace WIO.Imaging
         private async void DownloadImages(IEnumerable<ImageResult> results)
         {
             var sw = Stopwatch.StartNew();
+            //TODO: remove hardcoded min dimensions
             var filteredResults = results.Where(x => x.Width >= 1024 && x.Height >= 768).ToList();
             Logger.Info("Filtered result count: {0}", filteredResults.Count);
+            var downloadCount = 0;
 
-            //TODO: setup RavenDB database with source info so we don't get duplicate info?
+            //TODO: setup RavenDB database or other DS with source info so we don't get duplicate info?
 
             foreach (var result in filteredResults)
             {
                 var imageUrl = result.MediaUrl;
                 var outputFilename = Path.Combine(_outputPath, string.Format("{0}.jpg", result.ID.ToString("N")));
-                Logger.Debug("Image Url: {0}", imageUrl);
-                Logger.Debug("Image Destination: {0}", outputFilename);
-                // http://stackoverflow.com/questions/4054263/how-does-c-sharp-5-0s-async-await-feature-differ-from-the-tpl
-                await DownloadImage(imageUrl, outputFilename);
+
+                // don't redownload the image if it already exists locally, tho' the image could have changed
+                if (!File.Exists(outputFilename))
+                {
+                    Logger.Debug("Image Url: {0}, destination: {1}", imageUrl, outputFilename);
+                    // http://stackoverflow.com/questions/4054263/how-does-c-sharp-5-0s-async-await-feature-differ-from-the-tpl
+                    await DownloadImage(imageUrl, outputFilename);
+                    downloadCount++;
+                }
+                else 
+                    Logger.Debug("File already exists locally, not redownloading {0}", imageUrl);
             }
 
             sw.Stop();
-            Logger.Info("Saved {0} images in {1:000.0} seconds", filteredResults.Count, sw.Elapsed.TotalSeconds);
+            Logger.Info("Saved {0} images in {1:000.0} seconds", downloadCount, sw.Elapsed.TotalSeconds);
         }
 
         private static async Task DownloadImage(string url, string outputFilename)
@@ -109,7 +118,7 @@ namespace WIO.Imaging
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("Error downloading image '{0}' to '{1}': {2}", url, outputFilename, ex.ToString());
+                    Logger.Error("Error downloading image '{0}' to '{1}'. Likely corrupt and will be deleted. Error: {2}", url, outputFilename, ex.ToString());
                     // file is likely corrupted
                     try
                     {

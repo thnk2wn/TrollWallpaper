@@ -27,7 +27,7 @@ namespace WIO.Imaging
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error("Error saving {0} : {1}", outputFilename, ex.ToString());
+                        Logger.Error("Error saving {0}. Will attempt saving in chunks. Error was : {1}", outputFilename, ex.ToString());
 
                         try
                         {
