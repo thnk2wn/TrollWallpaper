@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WIO.Diagnostics;
-using WIO.Jobs;
 using WIO.Settings;
 
 namespace WIO.Imaging
@@ -34,8 +33,6 @@ namespace WIO.Imaging
 
         public void Fetch(string searchTerm, SearchOptions options = null)
         {
-            Logger.Info("Fetching images for term '{0}'", searchTerm);
-
             Logger.Info("Inspecting output directory {0}", _outputPath);
             var dir = new DirectoryInfo(_outputPath);
 
@@ -44,23 +41,9 @@ namespace WIO.Imaging
             try
             {
                 var searchOptions = options ?? AppSettings.Instance.Search.DefaultOptions;
-                Logger.Info("Setting up search. Query: {0}, Options: {1}", searchTerm, searchOptions);
+                var results = RunSearches(searchTerm, searchOptions);
 
-                // top and skip added manually, not working
-                var query = _bingSearchContainer.Image(
-                    Query: searchTerm,
-                    Options: null,
-                    Market: null,
-                    Adult:searchOptions.Adult,
-                    Latitude: null,
-                    Longitude: null,
-                    ImageFilters: searchOptions.Filters,
-                    //ImageFilters:"Size:Height:768&Size:Width:1024", // how to combine multiple?
-                    top: 300);
-
-                Logger.Info("Performing image search using ", _bingSearchContainer.BaseUri);
-                var results = query.ToList();
-                Logger.Info("Image search finished; {0} results", results.Count);
+                Logger.Info("Image searches finished; {0} results", results.Count);
                 DownloadImages(results, searchOptions);
             }
             catch (Exception ex)
@@ -70,10 +53,38 @@ namespace WIO.Imaging
             }
         }
 
+        private List<ImageResult> RunSearches(string searchTerm, SearchOptions options, int take = 50)
+        {
+            var requests = options.Max/take;
+            Logger.Info("Fetching images for term '{0}', options: {1}. Requests to make: {2}", searchTerm, options, requests);
+            var results = new List<ImageResult>();
+
+            for (var i = 0; i < requests; i++)
+            {
+                var skip = i * take;
+                Logger.Info("Setting up search. Query: {0}, Options: {1}, Skip: {2}", searchTerm, options, skip);
+                
+                var query = _bingSearchContainer.Image(
+                    Query: searchTerm,
+                    Options: null,
+                    Market: null,
+                    Adult: options.Adult,
+                    Latitude: null,
+                    Longitude: null,
+                    ImageFilters: options.Filters,
+                    //ImageFilters:"Size:Height:768&Size:Width:1024", // how to combine multiple?
+                    top: 50, // 50 is the max we can request in one shot
+                    skip:skip);
+                var currentResults = query.ToList();
+                results.AddRange(currentResults);
+            }
+
+            return results;
+        }
+
         private async void DownloadImages(IEnumerable<ImageResult> results, SearchOptions options)
         {
             var sw = Stopwatch.StartNew();
-            //TODO: remove hardcoded min dimensions
             var filteredResults = results.Where(x => x.Width >= options.MinWidth && x.Height >= options.MinHeight).ToList();
             Logger.Info("Filtered result count: {0}", filteredResults.Count);
             var downloadCount = 0;

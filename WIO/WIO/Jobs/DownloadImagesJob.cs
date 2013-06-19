@@ -34,11 +34,15 @@ namespace WIO.Jobs
                 foreach (var search in AppSettings.Instance.Search.Queries)
                 {
                     var search1 = search;
+                    // consider using Task.Delay() so as to not overwhelm system all at once
                     Task.Factory.StartNew(() =>
                     {
                         var fetcher = new ImageFetcher(outPath);
                         Logger.Info("Fetching images for {0}", search1.Term);
                         fetcher.Fetch(search1.Term, search1.Options);
+
+                        // attempt to not overwhelm system all at once
+                        Task.Delay(TimeSpan.FromMinutes(1)).Wait();
                     }, TaskCreationOptions.LongRunning);
                 }
             }

@@ -1,17 +1,26 @@
-﻿namespace WIO.Settings
+﻿using EnsureThat;
+
+namespace WIO.Settings
 {
     public class SearchOptions
     {
+        private int _max;
+
         public SearchOptions()
         {
             this.Filters = "Size:Large";
-            //this.Max = 100;
+            this.Max = 300;
             this.Adult = "Moderate";
-            this.MinHeight = 1024;
-            this.MinWidth = 768;
+            this.MinHeight = 1920;
+            this.MinWidth = 1080;
         }
 
-        //public int Max { get; set; }
+        public int Max
+        {
+            get { return _max; }
+            set { _max = Ensure.That(value, "Max").IsLte(300).Value; }
+        }
+
         public string Filters { get; set; }
         public string Adult { get; set; }
 
