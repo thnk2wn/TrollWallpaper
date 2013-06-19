@@ -32,9 +32,9 @@ namespace WIO.Imaging
 
         private readonly string _outputPath;
 
-        public void Fetch(string searchTerm, int maxResults = 64)
+        public void Fetch(string searchTerm, SearchOptions options = null)
         {
-            Logger.Info("Fetching images for term '{0}', max results of {1}", searchTerm, maxResults);
+            Logger.Info("Fetching images for term '{0}'", searchTerm);
 
             Logger.Info("Inspecting output directory {0}", _outputPath);
             var dir = new DirectoryInfo(_outputPath);
@@ -43,23 +43,25 @@ namespace WIO.Imaging
             
             try
             {
-                const string imageFilters = "Size:Large";
-                Logger.Info("Setting up search. Query: {0}, Image filters: {1}", searchTerm, imageFilters);
+                var searchOptions = options ?? AppSettings.Instance.Search.DefaultOptions;
+                Logger.Info("Setting up search. Query: {0}, Options: {1}", searchTerm, searchOptions);
 
+                // top and skip added manually, not working
                 var query = _bingSearchContainer.Image(
                     Query: searchTerm,
                     Options: null,
                     Market: null,
-                    Adult: null,
+                    Adult:searchOptions.Adult,
                     Latitude: null,
                     Longitude: null,
-                    ImageFilters: "Size:Large",
-                    top: 100);
+                    ImageFilters: searchOptions.Filters,
+                    //ImageFilters:"Size:Height:768&Size:Width:1024", // how to combine multiple?
+                    top: 300);
 
                 Logger.Info("Performing image search using ", _bingSearchContainer.BaseUri);
                 var results = query.ToList();
                 Logger.Info("Image search finished; {0} results", results.Count);
-                DownloadImages(results);
+                DownloadImages(results, searchOptions);
             }
             catch (Exception ex)
             {
@@ -68,11 +70,11 @@ namespace WIO.Imaging
             }
         }
 
-        private async void DownloadImages(IEnumerable<ImageResult> results)
+        private async void DownloadImages(IEnumerable<ImageResult> results, SearchOptions options)
         {
             var sw = Stopwatch.StartNew();
             //TODO: remove hardcoded min dimensions
-            var filteredResults = results.Where(x => x.Width >= 1024 && x.Height >= 768).ToList();
+            var filteredResults = results.Where(x => x.Width >= options.MinWidth && x.Height >= options.MinHeight).ToList();
             Logger.Info("Filtered result count: {0}", filteredResults.Count);
             var downloadCount = 0;
 
@@ -87,7 +89,6 @@ namespace WIO.Imaging
                 if (!File.Exists(outputFilename))
                 {
                     Logger.Debug("Image Url: {0}, destination: {1}", imageUrl, outputFilename);
-                    // http://stackoverflow.com/questions/4054263/how-does-c-sharp-5-0s-async-await-feature-differ-from-the-tpl
                     await DownloadImage(imageUrl, outputFilename);
                     downloadCount++;
                 }

@@ -9,7 +9,7 @@ namespace WIO.Diagnostics
 
         static LogglyLogger()
         {
-            _logger = new Logger(AppSettings.Instance.Log.LogglyApiKey);
+            _logger = new Logger(AppSettings.Instance.Log.LogglyInputKey);
         }
 
         public static void Info(string message, params object[] args)

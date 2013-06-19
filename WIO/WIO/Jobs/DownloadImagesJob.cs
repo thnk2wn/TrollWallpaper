@@ -38,8 +38,7 @@ namespace WIO.Jobs
                     {
                         var fetcher = new ImageFetcher(outPath);
                         Logger.Info("Fetching images for {0}", search1.Term);
-                        fetcher.Fetch(search1.Term);
-                        //TODO: options
+                        fetcher.Fetch(search1.Term, search1.Options);
                     }, TaskCreationOptions.LongRunning);
                 }
             }
