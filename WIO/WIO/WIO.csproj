@@ -83,6 +83,7 @@
     <Compile Include="Diagnostics\AppLogger.cs" />
     <Compile Include="Diagnostics\LoggerFactory.cs" />
     <Compile Include="Diagnostics\LogglyLogger.cs" />
+    <Compile Include="Imaging\Metadata.cs" />
     <Compile Include="Jobs\LoadAppSettingsJob.cs" />
     <Compile Include="Jobs\Schedule\DownloadSchedule.cs" />
     <Compile Include="Jobs\Schedule\LoadAppSettingsSchedule.cs" />
@@ -136,7 +137,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

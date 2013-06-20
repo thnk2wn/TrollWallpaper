@@ -57,7 +57,8 @@ namespace WIO.Settings
         {
             get
             {
-                var di = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images"));
+                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WIO");
+                var di = new DirectoryInfo(path);
                 if (!di.Exists) di.Create();
                 return di;
             }

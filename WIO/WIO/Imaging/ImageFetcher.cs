@@ -44,7 +44,7 @@ namespace WIO.Imaging
                 var results = RunSearches(searchTerm, searchOptions);
 
                 Logger.Info("Image searches finished; {0} results", results.Count);
-                DownloadImages(results, searchOptions);
+                DownloadImages(results, searchTerm, searchOptions);
             }
             catch (Exception ex)
             {
@@ -82,15 +82,16 @@ namespace WIO.Imaging
             return results;
         }
 
-        private async void DownloadImages(IEnumerable<ImageResult> results, SearchOptions options)
+        private async void DownloadImages(IEnumerable<ImageResult> results, string searchTerm, SearchOptions options)
         {
             var sw = Stopwatch.StartNew();
             var filteredResults = results.Where(x => x.Width >= options.MinWidth && x.Height >= options.MinHeight).ToList();
             Logger.Info("Filtered result count: {0}", filteredResults.Count);
             var downloadCount = 0;
 
-            //TODO: setup RavenDB database or other DS with source info so we don't get duplicate info?
+            //consider setting up a DS with source info so we don't get duplicate images (diff filename/id, same source)?
 
+            var metadataMgr = new MetadataManager();
             foreach (var result in filteredResults)
             {
                 var imageUrl = result.MediaUrl;
@@ -101,12 +102,19 @@ namespace WIO.Imaging
                 {
                     Logger.Debug("Image Url: {0}, destination: {1}", imageUrl, outputFilename);
                     await DownloadImage(imageUrl, outputFilename);
+                    metadataMgr.Add(new Metadata
+                        {
+                            RemoteLocation = imageUrl,
+                            LocalLocation = outputFilename,
+                            Term = searchTerm
+                        });
                     downloadCount++;
                 }
                 else 
                     Logger.Debug("File already exists locally, not redownloading {0}", imageUrl);
             }
 
+            metadataMgr.Save();
             sw.Stop();
             Logger.Info("Saved {0} images in {1:000.0} seconds", downloadCount, sw.Elapsed.TotalSeconds);
         }
