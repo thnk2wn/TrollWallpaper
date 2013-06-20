@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace WIO.Settings
 
             using (var client = new HttpClient())
             {
-                configData = await client.GetStringAsync(Properties.Settings.Default.RemoteConfigUri);
+                configData = await client.GetStringAsync(ConfigurationManager.AppSettings["ConfigSource"]);
             }
 
             lock (SyncRoot)

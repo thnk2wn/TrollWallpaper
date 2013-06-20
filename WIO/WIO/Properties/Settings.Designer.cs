@@ -22,14 +22,5 @@ namespace WIO.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://dl.dropbox.com/u/235508/WIO.json")]
-        public global::System.Uri RemoteConfigUri {
-            get {
-                return ((global::System.Uri)(this["RemoteConfigUri"]));
-            }
-        }
     }
 }
