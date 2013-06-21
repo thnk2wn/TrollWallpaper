@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using WIO.Core;
 
 namespace WIO.Settings
 {
@@ -43,6 +44,7 @@ namespace WIO.Settings
             using (var client = new HttpClient())
             {
                 configData = await client.GetStringAsync(ConfigurationManager.AppSettings["ConfigSource"]);
+                configData = CryptoManager.Decrypt3DES(configData);
             }
 
             lock (SyncRoot)
@@ -51,6 +53,16 @@ namespace WIO.Settings
             }
 
             return _instance;
+        }
+
+        // called manually as needed to encrypt contents
+        public static string Protect(string remoteSource)
+        {
+            using (var client = new HttpClient())
+            {
+                var configData = client.GetStringAsync(remoteSource).Result;
+                return CryptoManager.Encrypt3DES(configData);
+            }
         }
 
         [JsonIgnore]

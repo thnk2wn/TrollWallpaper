@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppContext.cs" />
+    <Compile Include="Core\CryptoManager.cs" />
     <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Diagnostics\IAppLogger.cs" />
     <Compile Include="Diagnostics\AppLogger.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="Jobs\Schedule\ScheduleBase.cs" />
     <Compile Include="Jobs\Schedule\WallpaperSchedule.cs" />
     <Compile Include="Settings\AppSettings.cs" />
-    <Compile Include="Core\SettingsGenerator.cs" />
     <Compile Include="Core\WindowsStartup.cs" />
     <Compile Include="Diagnostics\DebugMode.cs" />
     <Compile Include="Diagnostics\LogMsg.cs" />

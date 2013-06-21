@@ -16,7 +16,7 @@ namespace WIO
         public AppContext()
         {
             // configure default settings
-            //var settingsJson = SettingsGenerator.Generate();
+            //var settingsJsonEncrypted = AppSettings.Protect("{unencrypted remote config url source here}");
 
             AppSettings.Load().ContinueWith(AfterSettingsLoad);}
 
