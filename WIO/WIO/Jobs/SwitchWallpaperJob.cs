@@ -39,7 +39,11 @@ namespace WIO.Jobs
 
                 Logger.Troll("Changing wallpaper to {0}", randFile.Name);
                 Wallpaper.Set(randFile.FullName, Wallpaper.Style.Stretched);
-                Logger.Troll("Changed wallpaper to {0}", randFile.Name);
+
+                var meta = new MetadataManager().Get(randFile.FullName);
+                var changedTo = (null != meta) ? meta.RemoteLocation + " via term " + meta.Term : randFile.Name;
+
+                Logger.Troll("Changed wallpaper to {0}", changedTo);
             }
             catch (Exception ex)
             {

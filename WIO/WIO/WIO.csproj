@@ -86,6 +86,7 @@
     <Compile Include="Diagnostics\LoggerFactory.cs" />
     <Compile Include="Diagnostics\LogglyLogger.cs" />
     <Compile Include="Imaging\Metadata.cs" />
+    <Compile Include="Imaging\MetadataManager.cs" />
     <Compile Include="Jobs\LoadAppSettingsJob.cs" />
     <Compile Include="Jobs\Schedule\DownloadSchedule.cs" />
     <Compile Include="Jobs\Schedule\LoadAppSettingsSchedule.cs" />
