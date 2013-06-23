@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DA946C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WIO", "WIO\WIO.csproj", "{63DCA01E-65E4-4D88-B6B3-9AE3BAD8FB90}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "..\Core\Core.csproj", "{5F086898-E07E-43DF-8A9C-95ED21322358}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileEncrypt", "..\FileEncrypt\FileEncrypt.csproj", "{B412ED96-7023-4676-8E71-B26AACE48A8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{63DCA01E-65E4-4D88-B6B3-9AE3BAD8FB90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63DCA01E-65E4-4D88-B6B3-9AE3BAD8FB90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63DCA01E-65E4-4D88-B6B3-9AE3BAD8FB90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F086898-E07E-43DF-8A9C-95ED21322358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F086898-E07E-43DF-8A9C-95ED21322358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F086898-E07E-43DF-8A9C-95ED21322358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F086898-E07E-43DF-8A9C-95ED21322358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B412ED96-7023-4676-8E71-B26AACE48A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B412ED96-7023-4676-8E71-B26AACE48A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B412ED96-7023-4676-8E71-B26AACE48A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B412ED96-7023-4676-8E71-B26AACE48A8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Core;
 using Quartz;
 using Quartz.Impl;
 using WIO.Core;

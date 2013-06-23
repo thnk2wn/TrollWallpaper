@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
-namespace WIO.Core
+namespace Core
 {
     /// <summary>
     /// Provides a more complete base implementation of the IDisposable pattern

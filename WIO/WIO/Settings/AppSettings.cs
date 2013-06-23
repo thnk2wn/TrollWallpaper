@@ -3,6 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Core;
 using Newtonsoft.Json;
 using WIO.Core;
 

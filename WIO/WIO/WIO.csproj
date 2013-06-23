@@ -79,8 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppContext.cs" />
-    <Compile Include="Core\CryptoManager.cs" />
-    <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Diagnostics\IAppLogger.cs" />
     <Compile Include="Diagnostics\AppLogger.cs" />
     <Compile Include="Diagnostics\LoggerFactory.cs" />
@@ -143,7 +141,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj">
+      <Project>{5F086898-E07E-43DF-8A9C-95ED21322358}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
