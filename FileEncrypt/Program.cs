@@ -12,7 +12,7 @@ namespace FileEncrypt
     {
         static int Main(string[] args)
         {
-            if (!args.Any())
+            if (!args.Any() || args.Length > 2)
             {
                 Usage();
                 return Pause();
@@ -25,14 +25,15 @@ namespace FileEncrypt
             var destFilename = Path.Combine(sourceFilename.Directory.FullName, 
                 sourceFilename.Name.Replace(sourceFilename.Extension, DefaultExt));
 
+            if (args.Length == 2)
+                destFilename = args[1];
+
             var sourceData = File.ReadAllText(sourceFilename.FullName);
             var encrypted = CryptoManager.Encrypt3DES(sourceData);
             File.WriteAllText(destFilename, encrypted);
 
-            Console.WriteLine(value: string.Format("Encrypted contents of {0} to {1}", sourceFilename, destFilename));
+            Console.WriteLine("Encrypted contents of {0} to {1}", sourceFilename, destFilename);
             Pause();
-
-            Console.WriteLine();
 
             return 0;
         }
