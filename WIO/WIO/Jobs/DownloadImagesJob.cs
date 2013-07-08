@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Core;
 using EnsureThat;
 using Quartz;
 using WIO.Diagnostics;
@@ -29,17 +29,23 @@ namespace WIO.Jobs
                 if (AppSettings.Instance.Search.Queries.Count > 5)
                     throw new InvalidOperationException("Please limit number of queries to 5");
 
-                foreach (var search in AppSettings.Instance.Search.Queries)
+                for (var q = 0; q < AppSettings.Instance.Search.Queries.Count; q++)
                 {
-                    var search1 = search;
-                    // consider not overwhelming system all at once, may draw too much attention
-                    //Task.Factory.StartNew(() =>
-                    //{
+                    var search = AppSettings.Instance.Search.Queries[q];
+
+                    // try not to overwhelm system all at once, may draw too much attention
+                    //TODO: remove hardcoded delaySeconds
+                    var delaySeconds = q*180;
+                    var q1 = q;
+                    Logger.Info("Starting batch {0} for term {1} w/delay seconds {2}", q1 + 1, search.Term, delaySeconds);
+                    TaskDelayer.RunDelayed(delaySeconds * 1024, () =>
+                    {
                         var fetcher = new ImageFetcher(outPath);
-                        Logger.Info("Fetching images for {0}", search1.Term);
-                        fetcher.Fetch(search1.Term, search1.Options);
-                        //Task.Delay(TimeSpan.FromMinutes(1)).Wait();
-                    //}, TaskCreationOptions.LongRunning);
+                        Logger.Info("Fetching images for {0}", search.Term);
+                        fetcher.Fetch(search.Term, search.Options).Wait();
+                        //TODO: capture time elapsed and # images downloaded and expose on fetcher class
+                        return fetcher;
+                    }).ContinueWith(t=> Logger.Info("Finished batch {0} for term {1} w/delay seconds {2}", q1 + 1, search.Term, delaySeconds));
                 }
             }
             catch (Exception ex)

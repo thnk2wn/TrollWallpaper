@@ -31,7 +31,7 @@ namespace WIO.Imaging
 
         private readonly string _outputPath;
 
-        public void Fetch(string searchTerm, SearchOptions options = null)
+        public async Task Fetch(string searchTerm, SearchOptions options = null)
         {
             Logger.Info("Inspecting output directory {0}", _outputPath);
             var dir = new DirectoryInfo(_outputPath);
@@ -44,7 +44,7 @@ namespace WIO.Imaging
                 var results = RunSearches(searchTerm, searchOptions);
 
                 Logger.Info("Image searches finished; {0} results", results.Count);
-                DownloadImages(results, searchTerm, searchOptions);
+                await DownloadImages(results, searchTerm, searchOptions);
             }
             catch (Exception ex)
             {
@@ -82,7 +82,7 @@ namespace WIO.Imaging
             return results;
         }
 
-        private async void DownloadImages(IEnumerable<ImageResult> results, string searchTerm, SearchOptions options)
+        private async Task DownloadImages(IEnumerable<ImageResult> results, string searchTerm, SearchOptions options)
         {
             var sw = Stopwatch.StartNew();
             var filteredResults = results.Where(x => x.Width >= options.MinWidth && x.Height >= options.MinHeight).ToList();
