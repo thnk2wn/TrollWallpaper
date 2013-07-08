@@ -71,7 +71,9 @@ namespace WIO.Imaging
             {
                 reader.ReadRootValueAsArray = true;
                 var serializer = new JsonSerializer();
-                var data = serializer.Deserialize<List<Metadata>>(reader);
+                var tempData = serializer.Deserialize<List<Metadata>>(reader);
+                // cleanup by ignoring any old items in "index" where file no longer exists
+                var data = tempData.Where(item => File.Exists(item.LocalLocation)).ToList();
                 return data;
             }
         }

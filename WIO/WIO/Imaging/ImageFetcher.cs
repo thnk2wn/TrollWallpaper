@@ -126,6 +126,10 @@ namespace WIO.Imaging
             {
                 try
                 {
+                    // consider throttling downloads:
+                    //   http://www.codeproject.com/Articles/18243/Bandwidth-throttling OR
+                    //   http://sharpbits.codeplex.com/
+
                     Logger.Debug("Downloading {0} to {1}", url, outputFilename);
                     var sw = Stopwatch.StartNew();
                     var imageBytes = await webClient.DownloadDataTaskAsync(url);

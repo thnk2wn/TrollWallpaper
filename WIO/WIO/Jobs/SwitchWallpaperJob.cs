@@ -21,8 +21,9 @@ namespace WIO.Jobs
             {
                 //var path = context.MergedJobDataMap.GetString(OutputPathKey);
                 var path = AppSettings.ImagePath.FullName;
-
                 Ensure.That(path, "path").IsNotNullOrWhiteSpace();
+
+                ImageCleanup.Execute();
 
                 Logger.Troll("Enumerating files in {0}", path);
                 var files = Directory.GetFiles(path, "*.jpg").ToList();
@@ -37,8 +38,9 @@ namespace WIO.Jobs
                 var r = new Random();
                 var randFile = new FileInfo(files[r.Next(0, files.Count)]);
 
+                //TODO: setting for wallpaper style
                 Logger.Troll("Changing wallpaper to {0}", randFile.Name);
-                Wallpaper.Set(randFile.FullName, Wallpaper.Style.Stretched);
+                Wallpaper.Set(randFile.FullName, Wallpaper.Style.Centered);
 
                 var meta = new MetadataManager().Get(randFile.FullName);
                 var changedTo = (null != meta) ? meta.RemoteLocation + " via term " + meta.Term : randFile.Name;

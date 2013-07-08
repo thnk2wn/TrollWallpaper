@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WIO.Core;
 using WIO.Diagnostics;
+using WIO.Imaging;
 using WIO.Jobs.Schedule;
 using WIO.Settings;
 
@@ -26,6 +27,7 @@ namespace WIO
             Logger.Info("Setting up scheduler");
             RegisterAppForWindowsStartup();
             _scheduler.Setup();
+            ImageCleanup.Execute();
         }
 
         protected override void ExitThreadCore()
@@ -43,6 +45,8 @@ namespace WIO
                 Logger.Info("Disposing scheduler");
                 _scheduler.Dispose();
             }
+
+            ImageCleanup.Execute();
 
             RegisterAppForWindowsStartup();
         }

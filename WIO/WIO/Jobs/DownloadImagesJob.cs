@@ -22,9 +22,7 @@ namespace WIO.Jobs
                 var outPath = AppSettings.ImagePath.FullName;
                 Ensure.That(outPath, "outputPath").IsNotNullOrWhiteSpace();
 
-                Logger.Info("Inspecting images in {0}", outPath);
-
-                //var downloadImages = Directory.GetFiles(outPath, "*.jpg").Count() < 50;
+                ImageCleanup.Execute();
 
                 Logger.Info("Downloading images");
                     
@@ -49,7 +47,6 @@ namespace WIO.Jobs
                 Logger.Error(ex.ToString());
                 throw new JobExecutionException(ex);
             }
-            
         }
     }
 }

@@ -23,6 +23,8 @@ namespace WIO.Settings
             this.Log = new LogSettings();
         }
 
+        public string ImageDeleteAfterTimespan { get; set; }
+
         public static AppSettings Instance
         {
             get
