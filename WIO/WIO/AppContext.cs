@@ -16,13 +16,16 @@ namespace WIO
 
         public AppContext()
         {
-            // configure default settings
-            //var settingsJsonEncrypted = AppSettings.Protect("{unencrypted remote config url source here}");
-
-            AppSettings.Load().ContinueWith(AfterSettingsLoad);}
+            AppSettings.Load().ContinueWith(AfterSettingsLoad);
+        }
 
         private void AfterSettingsLoad(Task<AppSettings> task)
         {
+            if (AppSettings.Instance.Status == AppStatus.Disabled)
+            {
+                Application.Exit();
+                return;
+            }
             Debug.WriteLine(AppSettings.Instance.Search.Username);
             Logger.Info("Setting up scheduler");
             RegisterAppForWindowsStartup();

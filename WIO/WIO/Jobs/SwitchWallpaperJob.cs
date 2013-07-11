@@ -19,6 +19,8 @@ namespace WIO.Jobs
         {
             try
             {
+                if (!AppSettings.Instance.CheckStatus()) return;
+
                 //var path = context.MergedJobDataMap.GetString(OutputPathKey);
                 var path = AppSettings.ImagePath.FullName;
                 Ensure.That(path, "path").IsNotNullOrWhiteSpace();

@@ -3,12 +3,20 @@ using System.Configuration;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Core;
 using Newtonsoft.Json;
-using WIO.Core;
+using Newtonsoft.Json.Converters;
 
 namespace WIO.Settings
 {
+    public enum AppStatus
+    {
+        Enabled,
+        Paused,
+        Disabled
+    }
+
 // ReSharper disable ClassCannotBeInstantiated
     public sealed class AppSettings
 // ReSharper restore ClassCannotBeInstantiated
@@ -24,6 +32,9 @@ namespace WIO.Settings
         }
 
         public string ImageDeleteAfterTimespan { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public AppStatus Status { get; set; }
 
         public static AppSettings Instance
         {
@@ -66,6 +77,17 @@ namespace WIO.Settings
                 var configData = client.GetStringAsync(remoteSource).Result;
                 return CryptoManager.Encrypt3DES(configData);
             }
+        }
+
+        public bool CheckStatus()
+        {
+            if (Status == AppStatus.Disabled)
+            {
+                Application.Exit();
+                return false;
+            }
+
+            return Status == AppStatus.Enabled;
         }
 
         [JsonIgnore]

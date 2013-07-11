@@ -18,6 +18,8 @@ namespace WIO.Jobs
         {
             try
             {
+                if (!AppSettings.Instance.CheckStatus()) return;
+
                 // could also use context.MergedJobDataMap for job settings
                 var outPath = AppSettings.ImagePath.FullName;
                 Ensure.That(outPath, "outputPath").IsNotNullOrWhiteSpace();
@@ -46,6 +48,8 @@ namespace WIO.Jobs
                         //TODO: capture time elapsed and # images downloaded and expose on fetcher class
                         return fetcher;
                     }).ContinueWith(t=> Logger.Info("Finished batch {0} for term {1} w/delay seconds {2}", q1 + 1, search.Term, delaySeconds));
+
+                    if (!AppSettings.Instance.CheckStatus()) return;
                 }
             }
             catch (Exception ex)

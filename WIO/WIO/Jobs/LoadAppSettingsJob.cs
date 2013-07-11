@@ -15,6 +15,9 @@ namespace WIO.Jobs
             {
                 Logger.Info("Loading / refreshing app settings");
                 AppSettings.Load().Wait(timeout:TimeSpan.FromSeconds(30));
+
+                // term app if so configured
+                AppSettings.Instance.CheckStatus();
             }
             catch (Exception ex)
             {
