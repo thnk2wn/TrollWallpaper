@@ -36,8 +36,7 @@ namespace WIO.Jobs
                     var search = AppSettings.Instance.Search.Queries[q];
 
                     // try not to overwhelm system all at once, may draw too much attention
-                    //TODO: remove hardcoded delaySeconds
-                    var delaySeconds = q*180;
+                    var delaySeconds = q*AppSettings.Instance.Search.DelaySecondsBetweenSearches;
                     var q1 = q;
                     Logger.Info("Starting batch {0} for term {1} w/delay seconds {2}", q1 + 1, search.Term, delaySeconds);
                     TaskDelayer.RunDelayed(delaySeconds * 1024, () =>

@@ -20,5 +20,7 @@ namespace WIO.Settings
         public int Timeout { get; set; }
 
         public string ImageSearchUrl { get; set; }
+
+        public int DelaySecondsBetweenSearches { get; set; }
     }
 }
