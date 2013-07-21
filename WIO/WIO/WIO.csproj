@@ -84,6 +84,7 @@
     <Compile Include="Diagnostics\LoggerFactory.cs" />
     <Compile Include="Diagnostics\LogglyLogger.cs" />
     <Compile Include="Imaging\ImageCleanup.cs" />
+    <Compile Include="Imaging\ImageDownloader.cs" />
     <Compile Include="Imaging\Metadata.cs" />
     <Compile Include="Imaging\MetadataManager.cs" />
     <Compile Include="Jobs\LoadAppSettingsJob.cs" />
@@ -98,7 +99,7 @@
     <Compile Include="Diagnostics\LoggrNetLogger.cs" />
     <Compile Include="Diagnostics\UserInfoFetcher.cs" />
     <Compile Include="Imaging\BingSearchContainer.cs" />
-    <Compile Include="Imaging\ImageFetcher.cs" />
+    <Compile Include="Imaging\SearchImageFetcher.cs" />
     <Compile Include="Imaging\ImageWriter.cs" />
     <Compile Include="Imaging\Wallpaper.cs" />
     <Compile Include="Jobs\DownloadImagesJob.cs" />

@@ -33,6 +33,8 @@ namespace WIO.Settings
 
         public string ImageDeleteAfterTimespan { get; set; }
 
+        public string WallpaperOverrideUrl { get; set; }
+
         [JsonConverter(typeof(StringEnumConverter))]
         public AppStatus Status { get; set; }
 

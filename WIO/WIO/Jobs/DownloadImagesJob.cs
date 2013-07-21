@@ -42,7 +42,7 @@ namespace WIO.Jobs
                     Logger.Info("Starting batch {0} for term {1} w/delay seconds {2}", q1 + 1, search.Term, delaySeconds);
                     TaskDelayer.RunDelayed(delaySeconds * 1024, () =>
                     {
-                        var fetcher = new ImageFetcher(outPath);
+                        var fetcher = new SearchImageFetcher(outPath);
                         Logger.Info("Fetching images for {0}", search.Term);
                         fetcher.Fetch(search.Term, search.Options).Wait();
                         //TODO: capture time elapsed and # images downloaded and expose on fetcher class
