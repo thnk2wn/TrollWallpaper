@@ -15,6 +15,13 @@ namespace WIO.Jobs.Schedule
         public override void Setup()
         {
             Logger.Info("Setting up download images job");
+
+            if (!AppSettings.Instance.Search.Enabled)
+            {
+                Logger.Info("Search and download images isn't enabled; exiting");
+                return;
+            }
+
             var job = JobBuilder.Create<DownloadImagesJob>()
                 .WithIdentity("downloadImages")
                 .Build();

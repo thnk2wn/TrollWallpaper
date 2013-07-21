@@ -9,6 +9,7 @@ namespace WIO.Settings
             this.DefaultOptions = new SearchOptions();
             this.Queries = new List<SearchQuery>();
             this.Timeout = 60;
+            this.Enabled = true;
         }
 
         public SearchOptions DefaultOptions { get; set; }
@@ -22,5 +23,7 @@ namespace WIO.Settings
         public string ImageSearchUrl { get; set; }
 
         public int DelaySecondsBetweenSearches { get; set; }
+
+        public bool Enabled { get; set; }
     }
 }

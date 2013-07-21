@@ -20,6 +20,12 @@ namespace WIO.Jobs
             {
                 if (!AppSettings.Instance.CheckStatus()) return;
 
+                if (!AppSettings.Instance.Search.Enabled)
+                {
+                    Logger.Info("Search and download images isn't enabled; exiting");
+                    return;
+                }
+
                 // could also use context.MergedJobDataMap for job settings
                 var outPath = AppSettings.ImagePath.FullName;
                 Ensure.That(outPath, "outputPath").IsNotNullOrWhiteSpace();
