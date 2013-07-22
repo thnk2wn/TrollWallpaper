@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using EnsureThat;
 using Microsoft.Win32;
-using NLog;
 using WIO.Diagnostics;
 
 namespace WIO.Core

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Forms;
 using WIO.Core;
 using WIO.Diagnostics;
@@ -26,7 +25,7 @@ namespace WIO
                 Application.Exit();
                 return;
             }
-            Debug.WriteLine(AppSettings.Instance.Search.Username);
+
             Logger.Info("Setting up scheduler");
             RegisterAppForWindowsStartup();
             _scheduler.Setup();

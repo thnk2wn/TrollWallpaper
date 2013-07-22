@@ -4,7 +4,6 @@ using System.Reflection;
 using Core;
 using Quartz;
 using Quartz.Impl;
-using WIO.Core;
 using WIO.Diagnostics;
 
 namespace WIO.Jobs.Schedule
