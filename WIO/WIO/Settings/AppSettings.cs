@@ -60,7 +60,10 @@ namespace WIO.Settings
             using (var client = new HttpClient())
             {
                 configData = await client.GetStringAsync(ConfigurationManager.AppSettings["ConfigSource"]);
-                configData = CryptoManager.Decrypt3DES(configData);
+
+                var isJsonPlain = (configData.TrimStart().StartsWith("{"));
+                if (!isJsonPlain)
+                    configData = CryptoManager.Decrypt3DES(configData);
             }
 
             lock (SyncRoot)
