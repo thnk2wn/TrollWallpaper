@@ -17,7 +17,7 @@ namespace WIO.Jobs
         {
             try
             {
-                if (ShouldDownloadImages()) return;
+                if (!ShouldDownloadImages()) return;
 
                 // could also use context.MergedJobDataMap for job settings
                 var outPath = AppSettings.ImagePath.FullName;
@@ -60,14 +60,14 @@ namespace WIO.Jobs
 
         private static bool ShouldDownloadImages()
         {
-            if (!AppSettings.Instance.CheckStatus()) return true;
+            if (!AppSettings.Instance.CheckStatus()) return false;
 
             if (!AppSettings.Instance.Search.Enabled)
             {
                 Logger.Info("Search and download images isn't enabled; exiting");
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
     }
 }
