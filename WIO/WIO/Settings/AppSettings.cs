@@ -10,12 +10,7 @@ using Newtonsoft.Json.Converters;
 
 namespace WIO.Settings
 {
-    public enum AppStatus
-    {
-        Enabled,
-        Paused,
-        Disabled
-    }
+    public enum AppStatus { Enabled, Paused, Disabled }
 
 // ReSharper disable ClassCannotBeInstantiated
     public sealed class AppSettings
@@ -67,21 +62,9 @@ namespace WIO.Settings
             }
 
             lock (SyncRoot)
-            {
                 _instance = JsonConvert.DeserializeObject<AppSettings>(configData);
-            }
 
             return _instance;
-        }
-
-        // called manually as needed to encrypt contents
-        public static string Protect(string remoteSource)
-        {
-            using (var client = new HttpClient())
-            {
-                var configData = client.GetStringAsync(remoteSource).Result;
-                return CryptoManager.Encrypt3DES(configData);
-            }
         }
 
         public bool CheckStatus()
@@ -113,6 +96,4 @@ namespace WIO.Settings
 
         public LogSettings Log { get; set; }
     }
-
-    
 }
