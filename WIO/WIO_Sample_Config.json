@@ -1,0 +1,61 @@
+{
+  "AppStatus": "Enabled",
+  "ImageDeleteAfterTimeSpan": "7.00:00:00",
+  "WallpaperOverrideUrl": "",
+  "Search": {
+    "DefaultOptions": {
+      "Filters": "Size:Large",
+      "Adult": "Moderate",
+	  "MinWidth": 1920,
+	  "MinHeight": 1080,
+	  "Max": 300
+    },
+    "Queries": [
+      {
+        "Term": "Tron",
+        "Options": null
+      },
+      {
+        "Term": "beer",
+        "Options": null
+      },
+      {
+        "Term": "Shakira",
+        "Options": null
+      },
+	  {
+        "Term": "exotic cars",
+        "Options": null
+      },
+	  {
+        "Term": "bacon",
+        "Options": null
+      }
+    ],
+    "Username": "your_email@domain.com",
+    "ApiKey": "Your_Cryptic_Bing_API_Key_here",
+    "Timeout": 60,
+    "ImageSearchUrl": "https://api.datamarket.azure.com/Data.ashx/Bing/Search/v1",
+	"DelaySecondsBetweenSearches": 180,
+	"Enabled": true
+  },
+  "Job": {
+    "DownloadImagesIntervalMinutes": 90,
+    "WallpaperStartAfterMinutes": 1,
+    "WallpaperIntervalMinutes": 1,
+    "LoadSettingsStartAfterMinutes": 15,
+    "LoadSettingsIntervalMinutes": 45,
+    "WindowsStartupDelayMinutes": 3
+  },
+  "Log": {
+    "LoggrApiKey": "Your_Loggr_Net_Api_Key",
+    "LoggrLogKey": "Your_Loggr_Net_Log_Key",
+	"LogglyInputKey": "Your-Loggly-Input-Key-Guid-Here",
+	"IsDebugEnabled": false,
+	"IsInfoEnabled": true,
+	"IsWarnEnabled": true,
+	"IsErrorEnabled": true,
+	"IsFatalEnabled": true,
+	"IsTrollEnabled": true
+  }
+}
