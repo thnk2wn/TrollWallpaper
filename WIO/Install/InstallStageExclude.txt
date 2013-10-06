@@ -1,5 +1,4 @@
-Newtonsoft.Json.xml
-NLog.xml
-Quartz.xml
+*.xml
 logs\
 Images\
+*.txt

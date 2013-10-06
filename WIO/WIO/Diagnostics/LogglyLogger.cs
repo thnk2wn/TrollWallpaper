@@ -1,4 +1,5 @@
-﻿using Loggly;
+﻿using System.Diagnostics;
+using Loggly;
 using WIO.Settings;
 
 namespace WIO.Diagnostics
@@ -14,12 +15,16 @@ namespace WIO.Diagnostics
 
         public static void Info(string message, params object[] args)
         {
-            _logger.LogInfo(string.Format(message, args));
+            var msg = string.Format(message, args);
+            _logger.LogInfo(msg);
+            Trace.WriteLine(msg);
         }
 
         public static void Debug(string message, params object[] args)
         {
-            _logger.LogVerbose(string.Format(message, args));
+            var msg = string.Format(message, args);
+            _logger.LogVerbose(msg);
+            Trace.WriteLine(msg);
         }
     }
 }

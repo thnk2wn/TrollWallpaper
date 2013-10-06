@@ -11,7 +11,6 @@ pushd "%baseDir%"
 WIOS.exe /install
 REM Grant full control on baseDir and subfolders to NETWORK SERVICE for creating Logs, Images
 icacls "%baseDir%" /grant "NETWORK SERVICE":(OI)(CI)F
-REM net start "Windows Image Optimization Service"
 popd
 
 pause

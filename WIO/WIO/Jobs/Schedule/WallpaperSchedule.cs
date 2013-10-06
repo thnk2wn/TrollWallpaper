@@ -12,7 +12,7 @@ namespace WIO.Jobs.Schedule
         {
         }
 
-        public override void Setup()
+        protected override void Setup()
         {
             Logger.Info("Setting up wallpaper job");
             var job = JobBuilder.Create<SwitchWallpaperJob>()

@@ -14,7 +14,20 @@ namespace WIO.Jobs.Schedule
             _scheduler = scheduler;
         }
 
-        public abstract void Setup();
+        public void PerformSetup()
+        {
+            try
+            {
+                Setup();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(string.Format("Failed to setup scheduler {0}. Error was {1}", 
+                    this.GetType().Name, ex.Message), ex);
+            }
+        }
+
+        protected abstract void Setup();
 
         protected IScheduler Scheduler
         {

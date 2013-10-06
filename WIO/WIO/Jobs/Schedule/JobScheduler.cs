@@ -22,7 +22,7 @@ namespace WIO.Jobs.Schedule
             var types = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(x => x.BaseType == typeof(ScheduleBase)).ToList();
             Logger.Info("Found {0} schedules. Setting up each", types.Count);
-            types.ForEach(t=> ((ScheduleBase) Activator.CreateInstance(t, Scheduler)).Setup());
+            types.ForEach(t=> ((ScheduleBase) Activator.CreateInstance(t, Scheduler)).PerformSetup());
             Logger.Debug("Schedules setup");
         }
 
