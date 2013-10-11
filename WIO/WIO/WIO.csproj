@@ -34,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
@@ -172,8 +173,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if not exist "$(SolutionDir)Install\bin" mkdir "$(SolutionDir)Install\bin"
-xcopy $(TargetDir)*.* /y /e /exclude:$(SolutionDir)Install\InstallStageExclude.txt $(SolutionDir)Install\bin</PostBuildEvent>
+    <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 4.0
+if not exist "$(SolutionDir)Install\bin" mkdir "$(SolutionDir)Install\bin"
+del /f /q $(SolutionDir)Install\bin\*.*
+xcopy /r /d /i /s /y  /exclude:$(SolutionDir)Install\InstallStageExclude.txt $(TargetDir)*.* $(SolutionDir)Install\bin</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

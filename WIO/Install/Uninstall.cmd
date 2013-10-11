@@ -1,10 +1,6 @@
 set rootDir=%PROGRAMFILES(X86)%
-set baseDir=%rootDir%\WIOS
+set baseDir=%rootDir%\WIO
 
-net stop "Windows Image Optimization Service"
-TIMEOUT /T 2
-pushd "%baseDir%"
-WIOS.exe /uninstall
-popd
+taskkill /im WIO.exe
 TIMEOUT /T 2
 rmdir /s /q "%baseDir%"

@@ -1,4 +1,5 @@
-*.xml
+.xml
+.txt
+.pdb
 logs\
 Images\
-*.txt
